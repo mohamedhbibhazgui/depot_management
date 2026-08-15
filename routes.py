@@ -119,3 +119,19 @@ def edit_employee(employee_id):
         cursor.close()
         conn.close()
     return render_template('success.html')
+
+@employee_bp.route('/vehicules', methods = ['GET'])
+def get_vehicules():
+    conn = get_db_connection()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    sql = "SELECT immat, marque, last_maintenance FROM truck"
+    try:
+        cursor.execute(sql)
+        trucks = cursor.fetchall()
+    except Exception as e:
+        print(e)
+        abort(500, description = "Database error")
+    finally:
+        cursor.close()
+        conn.close()
+    return render_template('trucks.html', trucks = trucks)

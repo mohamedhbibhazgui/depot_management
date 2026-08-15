@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>trucks</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>immat</th><th>marque</th><th>last maintenance</th>
+            </tr>
+            {% for truck in trucks %}
+            <tr>
+                <td>{{ truck.immat }}</td>
+                <td>{{ truck.marque }}</td>
+                <td>{{ truck.last_maintenance }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p><a href="{{ url_for('employee.get_vehicules')}}"></p>
+        </body>
+    </html>
