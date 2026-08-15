@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- yes this is vibe coded dont judge me  -->
+<head>
+  <title>Edit Employee</title>
+  <meta charset="utf-8">
+  <meta lang="en">
+</head>
+<body>
+  <h2>Edit Employee</h2>
+  <form action="{{ url_for('edit_employee', employee_id=emp.id) }}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" maxlength="45" value="{{ emp.name }}" required><br><br>
+
+    <label for="fname">First Name:</label>
+    <input type="text" id="fname" name="fname" maxlength="45" value="{{ emp.fname }}" required><br><br>
+
+    <label for="gsm">GSM (Phone):</label>
+    <input type="text" id="gsm" name="gsm" maxlength="45" value="{{ emp.gsm }}" required><br><br>
+
+    <label for="adr">Address:</label>
+    <input type="text" id="adr" name="adr" maxlength="45" value="{{ emp.adr }}" required><br><br>
+
+    <label for="type">Type:</label>
+    <select id="type" name="type" required>
+      <option value="manager" {% if emp.type == 'manager' %}selected{% endif %}>Manager</option>
+      <option value="driver" {% if emp.type == 'driver' %}selected{% endif %}>Driver</option>
+      <option value="stocker" {% if emp.type == 'stocker' %}selected{% endif %}>Stocker</option>
+      <option value="financer" {% if emp.type == 'financer' %}selected{% endif %}>Financer</option>
+    </select><br><br>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="M" {% if emp.gender == 'M' %}selected{% endif %}>Male</option>
+      <option value="F" {% if emp.gender == 'F' %}selected{% endif %}>Female</option>
+    </select>
+
+    <button type="submit">Save Changes</button>
+  </form>
+  <h1><a href="{{ url_for('get_employees') }}">Cancel</a></h1>
+</body>
+<!-- yes this is vibe coded dont judge me  -->

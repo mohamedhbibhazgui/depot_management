@@ -1,0 +1,10 @@
+# Ignore the virtual environment folder
+api/
+pyvenv.cfg
+
+# Ignore python caches
+**/__pycache__/
+*.pyc
+
+# Ignore environment variables
+.env
