@@ -1,40 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Employee List</title>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <table>
-            <tr>
-                <th>Name</th><th>Last
-                    Name</th><th>GSM</th><th>Address</th><th>Type</th><th>Gender</th><th></th>
-            </tr>
-            {% for emp in employees %}
-            <tr>
-                <td>{{ emp.name }}</td>
-                <td>{{ emp.fname }}</td>
-                <td>{{ emp.gsm }}</td>
-                <td>{{ emp.adr }}</td>
-                <td>{{ emp.type }}</td>
-                <td>{{ emp.gender }}</td>
-                <td>
-                    <form
-                        action="{{ url_for('employee.edit_employee_form', employee_id=emp.id) }}"
-                        method="get" style="display:inline;">
-                        <button type="submit">Edit</button>
-                    </form>
-                    <form
-                        action="{{ url_for('employee.delete_employee', employee_id=emp.id) }}"
-                        method="post"
-                        onsubmit="return confirm('Delete {{ emp.name }} {{ emp.fname }}?');"
-                        style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <p><a href="{{ url_for('employee.show_form') }}">Add Employee</a></p>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>Employees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/employees.css') }}">
+</head>
+<body>
+
+    <!-- ============================================= -->
+    <!-- STATIC SHELL: sidebar + topbar. Plain HTML/CSS. -->
+    <!-- No React needed here, nothing in this part      -->
+    <!-- changes based on user interaction.               -->
+    <!-- ============================================= -->
+    <div class="layout">
+
+        <aside class="sidebar">
+            <div class="brand">Algetra</div>
+            <nav>
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Attendance</a>
+                <a href="#" class="nav-item">Calendar</a>
+                <a href="#" class="nav-item">Leave</a>
+                <a href="#" class="nav-item">Posts</a>
+                <a href="{{ url_for('employee.get_employees') }}" class="nav-item active">Employees</a>
+                <a href="{{ url_for('employee.get_vehicules') }}" class="nav-item">Trucks</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <h1>Employees</h1>
+                <a href="{{ url_for('employee.show_form') }}" class="add-btn">+ Add Employee</a>
+            </header>
+
+            <!-- ============================================= -->
+            <!-- REACT MOUNT POINT.                              -->
+            <!-- Everything inside #employee-root is rendered     -->
+            <!-- and controlled by React below (search + cards). -->
+            <!-- ============================================= -->
+            <div id="employee-root"></div>
+
+        </main>
+    </div>
+
+    <!-- These two URLs are built server-side with url_for so they stay -->
+    <!-- correct even if routes change. React reads them from window.   -->
+    <script>
+        // Both list (GET) and delete (DELETE) live at the same path,
+        // e.g. /employee/api/employees — delete just appends /<id>.
+        window.API_CONFIG = {
+            employeesUrl: "{{ url_for('employee.get_employees_json') }}"
+        };
+    </script>
+
+    <!-- React + Babel via CDN: no build step needed for a learning project -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel" src="{{ url_for('static', filename='js/employees.jsx') }}"></script>
+
+</body>
 </html>

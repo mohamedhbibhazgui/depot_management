@@ -1,6 +1,7 @@
-from flask import Blueprint, request, render_template, abort, redirect, url_for
+from flask import Blueprint, request, render_template, abort, redirect, url_for, jsonify
 import pymysql
 from db import get_db_connection
+
 
 employee_bp = Blueprint('employee', __name__)
 
@@ -22,6 +23,41 @@ def validate_employee_data(data):
         abort(400, description="Invalid gender")
 
     return name, fname, gsm, adress, emp_type, gender
+
+@employee_bp.route('/api/employees', methods=['GET'])
+def get_employees_json():
+    conn = get_db_connection()
+    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    sql = "SELECT id, name, fname, gsm, adr, type, gender FROM personnel"
+    try:
+        cursor.execute(sql)
+        employees = cursor.fetchall()
+    except Exception as e:
+        print(e)
+        abort(500, description="Database error")
+    finally:
+        cursor.close()
+        conn.close()
+    return jsonify(employees)
+
+@employee_bp.route('/api/employees/<int:employee_id>', methods=['DELETE'])
+def delete_employee_json(employee_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    sql = "DELETE FROM personnel WHERE id = %s"
+    try:
+        cursor.execute(sql, (employee_id,))
+        conn.commit()
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Employee not found"}), 404
+    except Exception as e:
+        print(e)
+        conn.rollback()
+        return jsonify({"error": "Database error"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+    return jsonify({"success": True})
 
 @employee_bp.route('/', methods=['GET'])
 def show_form():
