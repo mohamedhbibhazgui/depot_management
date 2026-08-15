@@ -6,7 +6,7 @@
 </head>
 <body>
   <h2>Add Employee</h2>
-  <form action="{{ url_for('add_employee') }}" method="post">
+  <form action="{{ url_for('employee.add_employee') }}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" maxlength="45" required><br><br>
 
@@ -37,5 +37,5 @@
 
     <button type="submit">Add Employee</button>
   </form>
-  <h1><a href="{{ url_for('get_employees') }}">Show Employees</a></h1>
+  <h1><a href="{{ url_for('employee.get_employees') }}">Show Employees</a></h1>
 </body>

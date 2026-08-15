@@ -7,7 +7,7 @@
 </head>
 <body>
   <h2>Edit Employee</h2>
-  <form action="{{ url_for('edit_employee', employee_id=emp.id) }}" method="post">
+  <form action="{{ url_for('employee.edit_employee', employee_id=emp.id) }}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" maxlength="45" value="{{ emp.name }}" required><br><br>
 
@@ -36,6 +36,6 @@
 
     <button type="submit">Save Changes</button>
   </form>
-  <h1><a href="{{ url_for('get_employees') }}">Cancel</a></h1>
+  <h1><a href="{{ url_for('employee.get_employees') }}">Cancel</a></h1>
 </body>
 <!-- yes this is vibe coded dont judge me  -->
