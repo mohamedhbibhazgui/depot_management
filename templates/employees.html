@@ -28,32 +28,19 @@
                 <a href="{{ url_for('employee.show_form') }}" class="add-btn">+ Add Employee</a>
             </header>
 
-            <!-- ============================================= -->
-            <!-- REACT MOUNT POINT.                              -->
-            <!-- Everything inside #employee-root is rendered     -->
-            <!-- and controlled by React below (search + cards). -->
-            <!-- ============================================= -->
             <div id="employee-root"></div>
 
         </main>
     </div>
-
-    <!-- These two URLs are built server-side with url_for so they stay -->
-    <!-- correct even if routes change. React reads them from window.   -->
     <script>
-        // Both list (GET) and delete (DELETE) live at the same path,
-        // e.g. /employee/api/employees — delete just appends /<id>.
         window.API_CONFIG = {
             employeesUrl: "{{ url_for('employee.get_employees_json') }}"
         };
     </script>
-
-    <!-- React + Babel via CDN: no build step needed for a learning project -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel" src="{{ url_for('static', filename='js/employees.jsx') }}"></script>
-
 </body>
 </html>
